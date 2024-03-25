@@ -1,0 +1,60 @@
+hush
+d1 silence
+d2 silence
+d3 silence
+d9 silence
+
+
+d1 $ qtrigger $ filterWhen (>=0) $ stack[
+    fast "<0.5 2>" $ s "lt:3 lt lt ~" # gain 0.8,
+    s "909!4" # gain 1,
+    ccv "2 4 1 1" # ccn 0 # s "midi"
+  ]
+
+
+d2 $ qtrigger $ filterWhen (>=0) $ stack [
+   s "hh*2 hh*2 hh*2 <hh*6 [hh*2]!3>" # gain 0.8,
+    ccv "45 90 270 360" # ccn 1 # s "midi"
+  ]
+
+
+d3 $ qtrigger $ filterWhen (>=0) $ stack [every 3 (hurry 2) $ sound "bd sd [~ bd] [cp bd*2]",
+  sound "kurt:4(3,8)" # shape "0 0.98" # gain "0.5" # speed 1.04,
+  struct "t" $ ccv (irand 15) # ccn 2 # s "midi"
+]
+
+d4 $ qtrigger $ filterWhen (>=0) $ stack[
+    fast "<0.5 2>" $ s "lt:3 lt lt ~" # gain 0.5,
+    s "909!4" # slow 2 ("<1.5 1>") # gain 1.2,
+    s "hh*2 hh*2 hh*2 <hh*6 [hh*2]!3>" # gain 0.7,
+    sound "sax(3,8) sax(5,8)" # legato 1 # n 3 # note "<[9 7] 5 [9 12]>" # sz 0.8 # room 0.4 # gain 0.8,
+    struct "t" $ ccv (irand 127) # ccn 3 # s "midi"
+  ]
+
+do
+  d3 silence
+  d1 silence
+  d2 silence
+
+d5 $ qtrigger $ filterWhen (>=0) $ stack[
+  s "bd*4" # gain 1.4 # krush 10,
+  struct "t t t t" $ ccv (irand 4) # ccn 4 # s "midi",
+  ccv "2 4 1 1" # ccn 6 # s "midi"
+]
+
+d6 $ qtrigger $ filterWhen (>=0) $ stack [
+  sound "sax(3,8) sax(5,8)" # legato 1 # n 3 # note "<[9 7] 5 [9 12]>" # sz 0.8 # room 0.4 # gain 0.8,
+  struct "t" $ ccv (irand 6) # ccn 5 # s "midi"
+]
+
+do
+  d2 silence
+  d3 silence
+
+d1 silence
+
+do
+  d5 silence
+  d6 silence
+
+d4 silence

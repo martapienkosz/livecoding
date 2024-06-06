@@ -1,0 +1,117 @@
+setcps (130/60/4)
+
+-- melody / let_s_start_slowly -- B
+do
+  d1 $ slow 2 $ s "0425demo:2" <| up "<[ds3 ds4 ~ gs4 ~ as4 ~ ds5 ~ as4 ~ gs4 ~ g4 ~ ~][cs3 cs4 ~ fs4 ~ gs4 ~ cs5 ~ gs4 ~ fs4 ~ f4 ~ ~]>" # room 1
+  d14 $ ccv "0" # ccn 14 # s "midi" --
+  d15 $ ccv "0" # ccn 15 # s "midi" --
+  d12 $ slow 2 $ ccv "0" # ccn 1 # s "midi" --
+  d11 $ slow 2 $ ccv "1" # ccn 0 # s "midi" --
+
+-- background / __beat? -- B
+do
+  d2 $ loopAt 4 $ s "0425demo:5" # gain 1.2 # pan sine
+  d11 $ slow 2 $ ccv "4 2 1 1" # ccn 0 # s "midi" -- all -> with base notes?
+
+-- beat / make_it_dance -- M
+do
+  d3 $ qtrigger $ filterWhen (>=0) $ struct ("0 [1 1] 0 1") $ s "ukghh:2" # gain 0.7
+  d4 $ qtrigger $ filterWhen (>=0) $ struct ("0 0 0 1") $ s "ukgclap:5" # gain 0.6
+  d12 $ ccv "<0 25> <0 -25> <0 25> <0 -25>" # ccn 1 # s "midi" -- 1,2,8,9,10,11,12 ->
+  d15 $ ccv "0" # ccn 15 # s "midi" -- 0-7 for every build up a random number
+
+-- 1st bass drum / roll_the_drums -- M
+do
+  d5 $ s "bassdm:1*4" # gain 1.1
+  d16 $ ccv "25 -25 0 -25" # ccn 2 # s "midi" -- 1,2,8,9,10,11,12 ->
+  d12 $ ccv "0 0 0 [0 0 <10 -10> 0 0]" # ccn 8 # s "midi" -- 1,2,8,9,10,11,12 ->
+  d15 $ ccv "8" # ccn 15 # s "midi" -- 0-7 for every build up a random number
+
+-- 2nd / okfullscreen_? -- M
+do
+  d6 $ struct ("[0 1] [0 1] [0 1] [0 1]") $ s "ukgoh:3" # gain 0.7 # room 0.1
+  d15 $ ccv "2" # ccn 15 # s "midi" -- 0-7 for every build up a random number
+
+-- 3rd / make_it_spin -- B
+do
+  d7 $ loopAt 4 $ s "0425demo:4" -- drum sample
+  once $ slow 4 $ ccv "127 1" # ccv "20"
+  once $ s "0425demo:3" # gain 0.8 -- riser
+  d13 $ ccv "127 127 101 76" # ccn 3 # s "midi" -- 3
+  d15 $ ccv "3" # ccn 15 # s "midi" -- 0-7 for every build up a random number
+
+-- add bass / i_like_it -- F
+d8 $ fast 1 $ s "0425demo:8" <| up "<[ds4 ~ ~ as4 ~ ~ ~ ~] [cs4 ~ ~ gs4 ~ ~ ~ ~] [cs4 ~ ~ gs4 ~ ~ ~ ~] [ds4 ~ ~ as4 ~ ~ ~ ~] >" # room 0.5 # legato 8 # gain 1.1
+
+-- strip it down / let_s_take_it_slow -- F -- in mid of cycle
+do
+  d1 $ silence -- melody
+  d5 $ silence
+  d6 $ silence
+  d7 $ silence -- drum sample
+  d13 $ silence
+  d14 $ ccv "1" # ccn 14 # s "midi" -- 0-7 for every build up a random number
+
+-- new layer / add_some_tunes -- F
+do
+  d9 $ slow 1 $ s "0425demo:0" <| up "<[as3 ~ ~ ~ ~ ~ as3 ~ ~ ~ ~ ~ as3 ~ ~ ~][~ ~ f3 ~ ~ ~ f3 ~ ~ ~ f3 ~ ~ ~ f3 fs3][gs3 ~ ~ ~ ~ ~ gs3 ~ ~ ~ ~ ~ gs3 ~ ~ ~][~ ~ cs3 ~ ~ ~ cs3 ~ ~ ~ cs3 ~ ~ ~ ~ ~]>" # room 0.4 # gain 1.1
+  d2 $ silence
+  d15 $ ccv "3" # ccn 15 # s "midi" -- 0-7 for every build up a random number
+
+-- melody again / keep_it_up -- F
+do
+  d1 $ slow 2 $ s "0425demo:2" <| up "<[ds3 ds4 ~ gs4 ~ as4 ~ ds5 ~ as4 ~ gs4 ~ g4 ~ ~][cs3 cs4 ~ fs4 ~ gs4 ~ cs5 ~ gs4 ~ fs4 ~ f4 ~ ~]>" # room 1
+  d13 $ ccv "76 100" # ccn 4 # s "midi" -- 3
+
+-- drum sample again / more_drums -- B
+do
+  d7 $ loopAt 4 $ s "0425demo:4" -- drum sample
+  d13 $ slow 2 $ ccv "-15 15" # ccn 4 # s "midi" -- 3
+  d15 $ ccv "4" # ccn 15 # s "midi" -- 0-7 for every build up a random number
+
+-- bd again / back_at_it -- J
+do
+  d5 $ s "bassdm:1*4" # gain 1.1
+  d13 $ ccv "-20 0 20 0" # ccn 5 # s "midi" -- 3
+  d15 $ ccv "5" # ccn 15 # s "midi" -- 0-7 for every build up a random number
+
+-- bass alternative / woah -- J
+do
+  d7 silence
+  d2 $ loopAt 4 $ s "0425demo:5" # gain 1 # lpf 4000 # pan sine
+  d8 $ fast 1 $ s "0425demo:8" <| up "<[ds4 ~ ~ as4 ~ ~ ~ ~] [cs4 ~ ~ gs4 ~ ~ ~ ~] [cs4 ~ ~ gs4 ~ ~ ~ ~] [ds4 ~ ~ as4 ~ ~ ~ ~] >"
+     # legato 8 # gain 1.2 # room 0.5 # pan sine # speed 2
+  d13 $ ccv "1 7 25 0" # ccn 6 # s "midi" -- 3
+  d15 $ ccv "6" # ccn 15 # s "midi" -- 0-7 for every build up a random number
+
+-- seawaves fx / am_i_hallucinating? -- J
+do
+  d9 $ qtrigger $ filterWhen (>=0)
+     $ seqP [
+      (1,2, s "0425demo:10")
+    ] # gain 1.1
+  d7 $ silence
+  d5 $ silence
+  d13 $ ccv "[-3 3] 0 0 0" # ccn 7 # s "midi" -- 3
+  d14 $ ccv "2" # ccn 14 # s "midi" -- 0-7 for every build up a random number
+  d15 $ ccv "7" # ccn 15 # s "midi" -- 0-7 for every build up a random number
+
+-- ending / the_world_is_spinning -- J
+do
+  d1
+    $ jux rev $ juxBy "0.3" (|* speed "1")
+    $ slow 2 $ s "0425demo:2" <| up "<[ds3 ds4 ~ gs4 ~ as4 ~ ds5 ~ as4 ~ gs4 ~ g4 ~ ~][cs3 cs4 ~ fs4 ~ gs4 ~ cs5 ~ gs4 ~ fs4 ~ f4 ~ ~]>"
+    # room 0.6 # gain 1 # lpf 1000
+  d14 $ ccv "2" # ccn 14 # s "midi" -- 0-7 for every build up a random number
+  d15 $ ccv "12" # ccn 15 # s "midi" -- 0-7 for every build up a random number
+
+-- silence bass / _that_was_blur -- J
+d8 $ silence
+
+-- my_vision_is_blurry -- J
+d1
+  $ jux rev $ juxBy "0.3" (|* speed "1")
+  $ slow 2 $ s "0425demo:2" <| up "<[ds3 ds4 ~ gs4 ~ as4 ~ ds5 ~ as4 ~ gs4 ~ g4 ~ ~][cs3 cs4 ~ fs4 ~ gs4 ~ cs5 ~ gs4 ~ fs4 ~ f4 ~ ~]>"
+  # room 0.6 # gain 1 # lpf 700
+
+hush
